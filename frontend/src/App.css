@@ -1,0 +1,157 @@
+:root{
+  --bg: #0f1112;
+  --panel: #121418;
+  --muted: #9aa3a6;
+  --text: #e6eef0;
+  --accent: #d4af37;
+  --accent-2: #8bd5ca;
+}
+
+/* App container */
+.sheet{
+  max-width: 1100px;
+  margin: 36px auto;
+  padding: 28px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.18));
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  color: var(--text);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+.sheet h1{
+  margin: 0 0 18px 0;
+  font-family: Cinzel, Georgia, serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--accent);
+  font-size: 2rem;
+}
+
+/* Abilities grid */
+.abilities{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.ability{
+  background: linear-gradient(135deg, var(--panel), #0b0d0e);
+  border-radius: 10px;
+  padding: 14px 12px;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.02);
+}
+
+.ability-name{
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.ability-score{
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-top: 6px;
+  color: #ffffff;
+}
+
+.ability-mod{
+  display: inline-block;
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.03);
+  color: var(--accent-2);
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+/* Two-column panels for combat/saves/modifiers */
+.combat, .saves, .modifiers, .add-modifier{
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.12));
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border: 1px solid rgba(255,255,255,0.02);
+}
+
+.combat, .saves{
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.combat > div, .saves > div{
+  min-width: 160px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.modifiers h2, .add-modifier h2{
+  margin: 0 0 10px 0;
+  color: var(--accent);
+  font-size: 1.05rem;
+}
+
+.modifier{
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 6px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.15);
+  margin-bottom: 8px;
+}
+
+.modifier button{
+  margin-left: 8px;
+}
+
+form{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+
+input, select{
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.03);
+  color: var(--text);
+  border-radius: 8px;
+}
+
+button{
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.03);
+  background: linear-gradient(180deg, var(--accent), #b88f2e);
+  color: #161616;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover{filter:brightness(0.95);}
+
+.add-modifier form input[name="value"]{max-width:110px}
+
+/* Small screens */
+@media (max-width: 900px){
+  .abilities{grid-template-columns: repeat(2,1fr)}
+  form{grid-template-columns: 1fr 1fr}
+}
+
+@media (max-width: 600px){
+  .sheet{margin: 16px;padding:16px}
+  .abilities{grid-template-columns: 1fr}
+  form{grid-template-columns: 1fr}
+}
+

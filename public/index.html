@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Pathfinder Character</title>
+  <style>
+  body {
+    margin: 0;
+    padding: 40px;
+    font-family: "Segoe UI", Roboto, sans-serif;
+    background-color: #1b1b1d;
+    color: #e6e6e6;
+  }
+
+  h1, h2, h3 {
+    color: #d4af37;
+    margin-bottom: 10px;
+  }
+
+  .sheet {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+  }
+
+  .card {
+    background-color: #252529;
+    border: 1px solid #3a3a3f;
+    border-radius: 8px;
+    padding: 20px;
+  }
+
+  .abilities {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+
+  .ability-box {
+    background-color: #2e2e33;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 15px;
+    text-align: center;
+  }
+
+  .ability-name {
+    font-size: 0.85rem;
+    color: #aaa;
+  }
+
+  .ability-score {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 5px 0;
+  }
+
+  .ability-mod {
+    font-size: 1rem;
+    color: #d4af37;
+  }
+
+  .derived {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .derived-box {
+    background-color: #2e2e33;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 10px;
+  }
+
+  .derived-title {
+    font-size: 0.8rem;
+    color: #aaa;
+  }
+
+  .derived-value {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 4px;
+  }
+
+  .modifier-list {
+    margin-top: 15px;
+    font-size: 0.9rem;
+  }
+
+  .modifier-entry {
+    background-color: #2a2a2f;
+    border: 1px solid #3f3f44;
+    border-radius: 4px;
+    padding: 6px 8px;
+    margin-bottom: 6px;
+  }
+
+  form {
+    margin-top: 30px;
+    background-color: #252529;
+    border: 1px solid #3a3a3f;
+    border-radius: 8px;
+    padding: 20px;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+    background-color: #2e2e33;
+    border: 1px solid #444;
+    border-radius: 4px;
+    color: #e6e6e6;
+  }
+
+  input::placeholder {
+    color: #888;
+  }
+
+  button {
+    padding: 8px 14px;
+    background-color: #8b0000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #a40000;
+  }
+</style>
+
+</head>
+<body>
+
+<h1>Character Sheet</h1>
+
+<div id="stats"></div>
+
+<h2>Add Modifier</h2>
+
+<form id="modifierForm">
+  <input type="text" id="source" placeholder="Source" required />
+  <input type="text" id="target" placeholder="Target Stat (e.g. strength)" required />
+  <select id="bonusType">
+    <option value="untyped">untyped</option>
+    <option value="enhancement">enhancement</option>
+    <option value="morale">morale</option>
+    <option value="competence">competence</option>
+    <option value="luck">luck</option>
+    <option value="dodge">dodge</option>
+    <option value="circumstance">circumstance</option>
+  </select>
+  <input type="number" id="value" placeholder="Value" required />
+  <button type="submit">Add Modifier</button>
+</form>
+
+<script src="app.js"></script>
+
+</body>
+</html>
