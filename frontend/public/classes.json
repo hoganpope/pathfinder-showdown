@@ -1,0 +1,16 @@
+{
+  "Fighter": [
+    { "attackBonus": 1, "fortitude": 2, "reflex": 0, "will": 0 },
+    { "attackBonus": 1, "fortitude": 1, "reflex": 0, "will": 0 },
+    { "attackBonus": 1, "fortitude": 0, "reflex": 1, "will": 1 },
+    { "attackBonus": 1, "fortitude": 1, "reflex": 0, "will": 0 },
+    { "attackBonus": 1, "fortitude": 0, "reflex": 0, "will": 0 },
+    { "attackBonus": 1, "fortitude": 1, "reflex": 1, "will": 1 }
+
+  ],
+  "Wizard": [
+    { "attackBonus": 0, "fortitude": 0, "will": 2 },
+    { "attackBonus": 0, "fortitude": 0, "will": 1 },
+    { "attackBonus": 0, "fortitude": 0, "will": 1 }
+  ]
+}

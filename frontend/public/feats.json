@@ -1,0 +1,30 @@
+{
+  "power_attack": {
+    "id": "power_attack",
+    "name": "Power Attack",
+    "description": "Take a penalty on attack rolls to gain damage.",
+    "prerequisites": { "level": 1 },
+    "effects": [
+      { "type": "modifier", "target": "attackBonus", "value": -1 },
+      { "type": "modifier", "target": "damage", "value": 2 }
+    ]
+  },
+  "toughness": {
+    "id": "toughness",
+    "name": "Toughness",
+    "description": "Gain extra hit points.",
+    "prerequisites": { "level": 1 },
+    "effects": [
+      { "type": "modifier", "target": "hitPoints", "value": 3 }
+    ]
+  },
+  "weapon_focus": {
+    "id": "weapon_focus",
+    "name": "Weapon Focus",
+    "description": "Gain +1 to attack with a chosen weapon (example as generic attackBonus).",
+    "prerequisites": { "level": 1 },
+    "effects": [
+      { "type": "modifier", "target": "attackBonus", "value": 1 }
+    ]
+  }
+}
