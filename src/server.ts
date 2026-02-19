@@ -71,9 +71,10 @@ app.post("/modifier", (req, res) => {
 
   const modifier: Modifier = {
     id: uuidv4(),
+    name: `${source} (${target})`,
     source,
     target,
-    bonusType,
+    type: bonusType,
     value,
     active: active ?? true
   };

@@ -3,7 +3,7 @@ import { BonusType } from "./bonusTypes";
 
 export interface StatBreakdownEntry {
     source: string;
-    bonusType: BonusType;
+    type: BonusType;
     value: number;
 }
 
@@ -27,11 +27,11 @@ export class RuleEngine {
                 continue;
             }
 
-            if(!buckets[mod.bonusType]){
-                buckets[mod.bonusType] = [];
+            if(!buckets[mod.type]){
+                buckets[mod.type] = [];
             }
 
-            buckets[mod.bonusType].push(mod);
+            buckets[mod.type].push(mod);
         }
 
         let totalBonus = 0;
@@ -51,7 +51,7 @@ export class RuleEngine {
                     totalBonus += best.value;
                     breakdown.push({
                         source: best.source,
-                        bonusType: best.bonusType,
+                        type: best.type,
                         value: best.value
                     });
                     break;
@@ -67,7 +67,7 @@ export class RuleEngine {
                     totalBonus += mod.value;
                     breakdown.push({
                     source: mod.source,
-                    bonusType: mod.bonusType,
+                    type: mod.type,
                     value: mod.value
                     });
                 }

@@ -1,0 +1,185 @@
+{
+  "longsword": {
+    "id": "longsword",
+    "name": "Longsword",
+    "slot": "weapon",
+    "type": "weapon",
+    "damage": {
+      "dice": "1d8",
+      "bonus": 0
+    },
+    "critRange": 19,
+    "modifiers": [],
+    "attacks": [
+      {
+        "id": "longsword_attack",
+        "name": "Longsword Strike",
+        "action": "standard",
+        "damage": {
+          "dice": "1d8",
+          "bonus": 0
+        },
+        "targetType": "enemy"
+      }
+    ]
+  },
+  "greatsword": {
+    "id": "greatsword",
+    "name": "Greatsword",
+    "slot": "weapon",
+    "type": "weapon",
+    "damage": {
+      "dice": "2d6",
+      "bonus": 0
+    },
+    "critRange": 19,
+    "modifiers": [],
+    "attacks": [
+      {
+        "id": "greatsword_attack",
+        "name": "Greatsword Strike",
+        "action": "standard",
+        "damage": {
+          "dice": "2d6",
+          "bonus": 0
+        },
+        "targetType": "enemy"
+      }
+    ]
+  },
+  "dagger": {
+    "id": "dagger",
+    "name": "Dagger",
+    "slot": "offhand",
+    "type": "weapon",
+    "damage": {
+      "dice": "1d4",
+      "bonus": 0
+    },
+    "critRange": 19,
+    "modifiers": [],
+    "attacks": [
+      {
+        "id": "dagger_attack",
+        "name": "Dagger Strike",
+        "action": "move",
+        "damage": {
+          "dice": "1d4",
+          "bonus": 0
+        },
+        "targetType": "enemy"
+      }
+    ]
+  },
+  "leather_armor": {
+    "id": "leather_armor",
+    "name": "Leather Armor",
+    "slot": "chest",
+    "type": "armor",
+    "armorBonus": 2,
+    "dexterityPenalty": 0,
+    "arcaneSpellFailure": 10,
+    "modifiers": [
+      {
+        "id": "leather_ac_bonus",
+        "name": "Leather Armor AC",
+        "source": "equipment",
+        "target": "armorClass",
+        "type": "enhancement",
+        "value": 2,
+        "active": true
+      }
+    ]
+  },
+  "plate_armor": {
+    "id": "plate_armor",
+    "name": "Full Plate Armor",
+    "slot": "chest",
+    "type": "armor",
+    "armorBonus": 8,
+    "dexterityPenalty": -1,
+    "arcaneSpellFailure": 35,
+    "modifiers": [
+      {
+        "id": "plate_ac_bonus",
+        "name": "Plate Armor AC",
+        "source": "equipment",
+        "target": "armorClass",
+        "type": "enhancement",
+        "value": 8,
+        "active": true
+      }
+    ]
+  },
+  "shield": {
+    "id": "shield",
+    "name": "Shield",
+    "slot": "offhand",
+    "type": "armor",
+    "armorBonus": 2,
+    "dexterityPenalty": 0,
+    "arcaneSpellFailure": 0,
+    "modifiers": [
+      {
+        "id": "shield_ac_bonus",
+        "name": "Shield AC",
+        "source": "equipment",
+        "target": "armorClass",
+        "type": "enhancement",
+        "value": 2,
+        "active": true
+      }
+    ]
+  },
+  "amulet_of_strength": {
+    "id": "amulet_of_strength",
+    "name": "Amulet of Strength +2",
+    "slot": "neck",
+    "type": "accessory",
+    "modifiers": [
+      {
+        "id": "amulet_str_bonus",
+        "name": "Strength Enhancement",
+        "source": "equipment",
+        "target": "strength",
+        "type": "enhancement",
+        "value": 2,
+        "active": true
+      }
+    ]
+  },
+  "belt_of_constitution": {
+    "id": "belt_of_constitution",
+    "name": "Belt of Constitution +2",
+    "slot": "waist",
+    "type": "accessory",
+    "modifiers": [
+      {
+        "id": "belt_con_bonus",
+        "name": "Constitution Enhancement",
+        "source": "equipment",
+        "target": "constitution",
+        "type": "enhancement",
+        "value": 2,
+        "active": true
+      }
+    ]
+  },
+  "ring_of_protection": {
+    "id": "ring_of_protection",
+    "name": "Ring of Protection +1",
+    "slot": "ring1",
+    "type": "accessory",
+    "modifiers": [
+      {
+        "id": "ring_protection_bonus",
+        "name": "Protection",
+        "source": "equipment",
+        "target": "armorClass",
+        "type": "enhancement",
+        "value": 1,
+        "active": true
+      }
+    ]
+  }
+}

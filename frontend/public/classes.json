@@ -1,16 +1,124 @@
 {
-  "Fighter": [
-    { "attackBonus": 1, "fortitude": 2, "reflex": 0, "will": 0 },
-    { "attackBonus": 1, "fortitude": 1, "reflex": 0, "will": 0 },
-    { "attackBonus": 1, "fortitude": 0, "reflex": 1, "will": 1 },
-    { "attackBonus": 1, "fortitude": 1, "reflex": 0, "will": 0 },
-    { "attackBonus": 1, "fortitude": 0, "reflex": 0, "will": 0 },
-    { "attackBonus": 1, "fortitude": 1, "reflex": 1, "will": 1 }
-
-  ],
-  "Wizard": [
-    { "attackBonus": 0, "fortitude": 0, "will": 2 },
-    { "attackBonus": 0, "fortitude": 0, "will": 1 },
-    { "attackBonus": 0, "fortitude": 0, "will": 1 }
-  ]
-}
+  "Fighter": {
+    "id": "Fighter",
+    "name": "Fighter",
+    "hitDie": 10,
+    "baseAttackBonusProgression": "fast",
+    "savingThrowProgressions": {
+      "fortitude": "fast",
+      "reflex": "slow",
+      "will": "slow"
+    },
+    "progressionTable": [
+      {
+        "level": 1,
+        "attackBonus": 1,
+        "fortitude": 2,
+        "reflex": 0,
+        "will": 0
+      },
+      {
+        "level": 2,
+        "attackBonus": 2,
+        "fortitude": 3,
+        "reflex": 0,
+        "will": 0
+      },
+      {
+        "level": 3,
+        "attackBonus": 3,
+        "fortitude": 3,
+        "reflex": 1,
+        "will": 1
+      },
+      {
+        "level": 4,
+        "attackBonus": 4,
+        "fortitude": 4,
+        "reflex": 1,
+        "will": 1
+      },
+      {
+        "level": 5,
+        "attackBonus": 5,
+        "fortitude": 4,
+        "reflex": 1,
+        "will": 1
+      },
+      {
+        "level": 6,
+        "attackBonus": 6,
+        "fortitude": 5,
+        "reflex": 2,
+        "will": 2
+      }
+    ]
+  },
+  "Wizard": {
+    "id": "Wizard",
+    "name": "Wizard",
+    "hitDie": 6,
+    "baseAttackBonusProgression": "slow",
+    "savingThrowProgressions": {
+      "fortitude": "slow",
+      "reflex": "slow",
+      "will": "fast"
+    },
+    "progressionTable": [
+      {
+        "level": 1,
+        "attackBonus": 0,
+        "fortitude": 0,
+        "reflex": 0,
+        "will": 2
+      },
+      {
+        "level": 2,
+        "attackBonus": 1,
+        "fortitude": 0,
+        "reflex": 0,
+        "will": 3
+      },
+      {
+        "level": 3,
+        "attackBonus": 1,
+        "fortitude": 1,
+        "reflex": 1,
+        "will": 3
+      }
+    ]
+  },
+  "Barbarian": {
+    "id": "Barbarian",
+    "name": "Barbarian",
+    "hitDie": 12,
+    "baseAttackBonusProgression": "fast",
+    "savingThrowProgressions": {
+      "fortitude": "fast",
+      "reflex": "slow",
+      "will": "slow"
+    },
+    "progressionTable": [
+      {
+        "level": 1,
+        "attackBonus": 1,
+        "fortitude": 2,
+        "reflex": 0,
+        "will": 0
+      },
+      {
+        "level": 2,
+        "attackBonus": 2,
+        "fortitude": 3,
+        "reflex": 0,
+        "will": 0
+      },
+      {
+        "level": 3,
+        "attackBonus": 3,
+        "fortitude": 3,
+        "reflex": 1,
+        "will": 1
+      }
+    ]
+  }}

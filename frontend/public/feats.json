@@ -3,28 +3,150 @@
     "id": "power_attack",
     "name": "Power Attack",
     "description": "Take a penalty on attack rolls to gain damage.",
-    "prerequisites": { "level": 1 },
-    "effects": [
-      { "type": "modifier", "target": "attackBonus", "value": -1 },
-      { "type": "modifier", "target": "damage", "value": 2 }
+    "prerequisites": {
+      "baseAttackBonus": 1
+    },
+    "modifiers": [
+      {
+        "id": "power_attack_penalty",
+        "name": "Power Attack Penalty",
+        "source": "feat",
+        "target": "attackBonus",
+        "type": "untyped",
+        "value": -1,
+        "active": false
+      },
+      {
+        "id": "power_attack_damage",
+        "name": "Power Attack Damage",
+        "source": "feat",
+        "target": "damage",
+        "type": "untyped",
+        "value": 2,
+        "active": false
+      }
     ]
   },
   "toughness": {
     "id": "toughness",
     "name": "Toughness",
     "description": "Gain extra hit points.",
-    "prerequisites": { "level": 1 },
-    "effects": [
-      { "type": "modifier", "target": "hitPoints", "value": 3 }
+    "prerequisites": {
+      "level": 1
+    },
+    "modifiers": [
+      {
+        "id": "toughness_hp",
+        "name": "Toughness HP",
+        "source": "feat",
+        "target": "hitPoints",
+        "type": "untyped",
+        "value": 3,
+        "active": true
+      }
     ]
   },
   "weapon_focus": {
     "id": "weapon_focus",
     "name": "Weapon Focus",
-    "description": "Gain +1 to attack with a chosen weapon (example as generic attackBonus).",
-    "prerequisites": { "level": 1 },
-    "effects": [
-      { "type": "modifier", "target": "attackBonus", "value": 1 }
+    "description": "Gain +1 to attack with a chosen weapon.",
+    "prerequisites": {
+      "baseAttackBonus": 1
+    },
+    "modifiers": [
+      {
+        "id": "weapon_focus_bonus",
+        "name": "Weapon Focus",
+        "source": "feat",
+        "target": "attackBonus",
+        "type": "untyped",
+        "value": 1,
+        "active": true
+      }
     ]
+  },
+  "weapon_specialization": {
+    "id": "weapon_specialization",
+    "name": "Weapon Specialization",
+    "description": "Gain +2 damage with a chosen weapon.",
+    "prerequisites": {
+      "baseAttackBonus": 4,
+      "feats": ["weapon_focus"]
+    },
+    "modifiers": [
+      {
+        "id": "weapon_spec_damage",
+        "name": "Weapon Specialization",
+        "source": "feat",
+        "target": "damage",
+        "type": "untyped",
+        "value": 2,
+        "active": true
+      }
+    ]
+  },
+  "dodge": {
+    "id": "dodge",
+    "name": "Dodge",
+    "description": "Gain +1 dodge bonus to AC.",
+    "prerequisites": {
+      "level": 1,
+      "stats": { "dexterity": 13 }
+    },
+    "modifiers": [
+      {
+        "id": "dodge_ac",
+        "name": "Dodge AC",
+        "source": "feat",
+        "target": "armorClass",
+        "type": "dodge",
+        "value": 1,
+        "active": true
+      }
+    ]
+  },
+  "greatness": {
+    "id": "greatness",
+    "name": "Greatness",
+    "description": "Unlock your full potential with a special ability.",
+    "prerequisites": {
+      "level": 5,
+      "stats": { "strength": 18 }
+    },
+    "abilities": [
+      {
+        "id": "greatness_ability",
+        "name": "Greatness Multiplier",
+        "action": "standard",
+        "description": "Deal 3x damage for one attack"
+      }
+    ]
+  },
+  "combat_reflexes": {
+    "id": "combat_reflexes",
+    "name": "Combat Reflexes",
+    "description": "Make extra attacks of opportunity.",
+    "prerequisites": {
+      "level": 1,
+      "stats": { "dexterity": 13 }
+    }
+  },
+  "improved_initiative": {
+    "id": "improved_initiative",
+    "name": "Improved Initiative",
+    "description": "Gain +4 bonus to initiative rolls.",
+    "prerequisites": {
+      "level": 1
+    },
+    "modifiers": [
+      {
+        "id": "improved_init",
+        "name": "Initiative Bonus",
+        "source": "feat",
+        "target": "initiative",
+        "type": "untyped",
+        "value": 4,
+        "active": true
+      }    ]
   }
 }
