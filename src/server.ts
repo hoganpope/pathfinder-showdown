@@ -16,6 +16,9 @@ app.use(cors());
 
 const port = 3000;
 
+// In-memory storage for characters
+const storedCharacters: Record<string, any> = {};
+
 const character = new Character({
   strength: 16,
   dexterity: 12,
@@ -120,6 +123,78 @@ app.delete("/modifier/:id", (req, res) => {
   res.json({ message: "Deleted" });
 });
 
+/*
+---------------------------------------
+CHARACTER ENDPOINTS
+---------------------------------------
+*/
+
+// GET all characters
+app.get("/api/characters", (req, res) => {
+  const characters = Object.values(storedCharacters).map(char => ({
+    id: char.id,
+    name: char.name,
+    class: char.class,
+    level: char.level,
+  }));
+  res.json(characters);
+});
+
+// POST save a new character
+app.post("/api/characters", (req, res) => {
+  const characterData = req.body;
+  const id = uuidv4();
+  
+  storedCharacters[id] = {
+    id,
+    ...characterData,
+    createdAt: new Date().toISOString(),
+  };
+  
+  res.json({ id, ...storedCharacters[id] });
+});
+
+// GET a specific character
+app.get("/api/characters/:id", (req, res) => {
+  const { id } = req.params;
+  const character = storedCharacters[id];
+  
+  if (!character) {
+    return res.status(404).json({ error: "Character not found" });
+  }
+  
+  res.json(character);
+});
+
+// PUT update a character
+app.put("/api/characters/:id", (req, res) => {
+  const { id } = req.params;
+  const characterData = req.body;
+  
+  if (!storedCharacters[id]) {
+    return res.status(404).json({ error: "Character not found" });
+  }
+  
+  storedCharacters[id] = {
+    ...storedCharacters[id],
+    ...characterData,
+    id,
+  };
+  
+  res.json(storedCharacters[id]);
+});
+
+// DELETE a character
+app.delete("/api/characters/:id", (req, res) => {
+  const { id } = req.params;
+  
+  if (!storedCharacters[id]) {
+    return res.status(404).json({ error: "Character not found" });
+  }
+  
+  delete storedCharacters[id];
+  res.json({ message: "Character deleted" });
+});
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

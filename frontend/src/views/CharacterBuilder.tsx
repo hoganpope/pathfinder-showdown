@@ -24,9 +24,11 @@ interface Equipment {
 
 interface CharacterBuilderProps {
   onCharacterCreate: (character: any) => void;
+  characterId?: string | null;
+  onBackToSelect?: () => void;
 }
 
-function CharacterBuilder({ onCharacterCreate }: CharacterBuilderProps) {
+function CharacterBuilder({ onCharacterCreate, characterId, onBackToSelect }: CharacterBuilderProps) {
   const [characterName, setCharacterName] = useState<string>("New Character");
   const [classes, setClasses] = useState<Record<string, ClassData>>({});
   const [selectedClass, setSelectedClass] = useState<string>("");
@@ -43,6 +45,36 @@ function CharacterBuilder({ onCharacterCreate }: CharacterBuilderProps) {
   const [selectedFeats, setSelectedFeats] = useState<string[]>([]);
   const [equipment, setEquipment] = useState<Record<string, Equipment>>({});
   const [equippedItems, setEquippedItems] = useState<string[]>([]);
+  const [loading, setLoading] = useState(!!characterId);
+  const [error, setError] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+
+  // Load character if editing
+  useEffect(() => {
+    if (characterId) {
+      (async () => {
+        try {
+          const res = await fetch(`http://localhost:3000/api/characters/${characterId}`);
+          if (!res.ok) throw new Error("Failed to load character");
+          const character = await res.json();
+          
+          setCharacterName(character.name);
+          setSelectedClass(character.class);
+          setLevel(character.level);
+          setBaseStats(character.baseStats);
+          setSelectedFeats(character.selectedFeats);
+          setEquippedItems(character.equippedItems);
+        } catch (e) {
+          console.error("Failed to load character:", e);
+          setError("Failed to load character");
+        } finally {
+          setLoading(false);
+        }
+      })();
+    } else {
+      setLoading(false);
+    }
+  }, [characterId]);
 
   // Load classes
   useEffect(() => {
@@ -105,8 +137,8 @@ function CharacterBuilder({ onCharacterCreate }: CharacterBuilderProps) {
     );
   };
 
-  const handleSaveCharacter = () => {
-    const character = {
+  const handleSaveCharacter = async () => {
+    const characterData = {
       name: characterName,
       class: selectedClass,
       level,
@@ -114,15 +146,59 @@ function CharacterBuilder({ onCharacterCreate }: CharacterBuilderProps) {
       selectedFeats,
       equippedItems,
     };
-    onCharacterCreate(character);
-    alert("Character saved! You can now test it in Character Pilot.");
+
+    try {
+      setIsSaving(true);
+      setError(null);
+
+      let response;
+      if (characterId) {
+        // Update existing character
+        response = await fetch(`http://localhost:3000/api/characters/${characterId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(characterData),
+        });
+      } else {
+        // Create new character
+        response = await fetch("http://localhost:3000/api/characters", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(characterData),
+        });
+      }
+
+      if (!response.ok) throw new Error("Failed to save character");
+
+      const savedCharacter = await response.json();
+      onCharacterCreate(savedCharacter);
+      alert("Character saved successfully!");
+    } catch (err) {
+      console.error("Error saving character:", err);
+      setError("Failed to save character");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const currentClassData = selectedClass ? classes[selectedClass] : null;
 
+  if (loading) {
+    return <div className="character-builder"><p>Loading character...</p></div>;
+  }
+
   return (
     <div className="character-builder">
-      <h2>Character Builder</h2>
+      <div className="builder-header">
+        <h2>{characterId ? "Edit Character" : "Create New Character"}</h2>
+        {onBackToSelect && (
+          <button className="btn-secondary" onClick={onBackToSelect}>
+            Back to Characters
+          </button>
+        )}
+      </div>
+
+      {error && <div className="error-message">{error}</div>}
 
       {/* Character Name */}
       <section className="builder-section">
@@ -251,8 +327,12 @@ function CharacterBuilder({ onCharacterCreate }: CharacterBuilderProps) {
 
       {/* Save Button */}
       <section className="builder-actions">
-        <button className="btn-primary" onClick={handleSaveCharacter}>
-          Save Character
+        <button 
+          className="btn-primary" 
+          onClick={handleSaveCharacter}
+          disabled={isSaving}
+        >
+          {isSaving ? "Saving..." : characterId ? "Update Character" : "Save Character"}
         </button>
       </section>
     </div>
