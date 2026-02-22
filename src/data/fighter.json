@@ -1,0 +1,213 @@
+{
+  "Fighter": {
+    "id": "Fighter",
+    "name": "Fighter",
+    "hitDie": 10,
+    "baseAttackBonusProgression": "fast",
+    "savingThrowProgressions": {
+      "fortitude": "fast",
+      "reflex": "slow",
+      "will": "slow"
+    },
+    "classFeatures": {
+      "1": [
+        {
+          "id": "weapon-armor-proficiency",
+          "name": "Weapon and Armor Proficiency",
+          "description": "Fighters are proficient with all simple and martial weapons. Fighters are also proficient with all types of armor and shields.",
+          "type": "passive"
+        },
+        {
+          "id": "bravery-1",
+          "name": "Bravery",
+          "description": "+ 1 morale bonus on saving throws against fear. This bonus increases by +1 for every four levels beyond 1st.",
+          "type": "passive",
+          "modifiers": [
+            {
+              "name": "Bravery (Fear Save)",
+              "source": "Fighter Level 1",
+              "type": "morale",
+              "value": 1,
+              "active": true,
+              "applicableWhen": {
+                "situations": ["fear-effect"]
+              }
+            }
+          ]
+        },
+        {
+          "id": "bonus-feat-1",
+          "name": "Bonus Combat Feat",
+          "description": "At 1st level and every even level thereafter, a fighter gains a bonus feat in addition to the feat that any character of that level receives and the bonus feat granted to a human at 1st level. These bonus feats must be taken from the list of combat feats. A fighter must meet the prerequisites of the selected feat to use it.",
+          "type": "passive"
+        }
+      ],
+      "2": [
+        {
+          "id": "bravery-2",
+          "name": "Bravery",
+          "description": "+2 morale bonus on saving throws against fear.",
+          "type": "passive",
+          "modifiers": [
+            {
+              "name": "Bravery (Fear Save)",
+              "source": "Fighter Level 2",
+              "type": "morale",
+              "value": 2,
+              "active": true,
+              "applicableWhen": {
+                "situations": ["fear-effect"]
+              }
+            }
+          ]
+        },
+        {
+          "id": "bonus-feat-2",
+          "name": "Bonus Combat Feat",
+          "description": "At 2nd level, a fighter gains another bonus combat feat.",
+          "type": "passive"
+        }
+      ],
+      "3": [
+        {
+          "id": "bravery-3",
+          "name": "Bravery",
+          "description": "+3 morale bonus on saving throws against fear.",
+          "type": "passive",
+          "modifiers": [
+            {
+              "name": "Bravery (Fear Save)",
+              "source": "Fighter Level 3",
+              "type": "morale",
+              "value": 3,
+              "active": true,
+              "applicableWhen": {
+                "situations": ["fear-effect"]
+              }
+            }
+          ]
+        },
+        {
+          "id": "armor-training-1",
+          "name": "Armor Training",
+          "description": "Starting at 3rd level, a fighter learns to be more maneuverable while wearing armor. Whenever he is wearing armor, he reduces the armor check penalty by 1 (to a minimum of 0) and increases the maximum Dexterity bonus allowed by the armor by 1. The benefits of armor training are cumulative.",
+          "type": "passive",
+          "applicableType": "armor",
+          "modifiers": [
+            {
+              "name": "Armor Training I (AC)",
+              "source": "Fighter Level 3",
+              "type": "armor-training",
+              "value": 1,
+              "active": true,
+              "applicableWhen": {
+                "situations": ["in-armor"]
+              }
+            }
+          ]
+        }
+      ],
+      "4": [
+        {
+          "id": "bravery-4",
+          "name": "Bravery",
+          "description": "+4 morale bonus on saving throws against fear.",
+          "type": "passive",
+          "modifiers": [
+            {
+              "name": "Bravery (Fear Save)",
+              "source": "Fighter Level 4",
+              "type": "morale",
+              "value": 4,
+              "active": true,
+              "applicableWhen": {
+                "situations": ["fear-effect"]
+              }
+            }
+          ]
+        },
+        {
+          "id": "bonus-feat-4",
+          "name": "Bonus Combat Feat",
+          "description": "At 4th level, a fighter gains another bonus combat feat.",
+          "type": "passive"
+        }
+      ],
+      "5": [
+        {
+          "id": "bravery-5",
+          "name": "Bravery",
+          "description": "+5 morale bonus on saving throws against fear.",
+          "type": "passive",
+          "modifiers": [
+            {
+              "name": "Bravery (Fear Save)",
+              "source": "Fighter Level 5",
+              "type": "morale",
+              "value": 5,
+              "active": true,
+              "applicableWhen": {
+                "situations": ["fear-effect"]
+              }
+            }
+          ]
+        },
+        {
+          "id": "weapon-training-1",
+          "name": "Weapon Training",
+          "description": "Starting at 5th level, a fighter can select one group of weapons, as noted below. Whenever he attacks with a weapon from this group, he can use his Strength modifier instead of Dexterity for attack rolls and his Strength modifier instead of Dexterity for damage rolls when using a melee weapon in this group, but not when using a ranged weapon. The benefits of weapon training are cumulative.",
+          "type": "passive",
+          "applicableType": "weaponGroup",
+          "requiresSelection": true,
+          "selectionLabel": "Select a weapon group for training",
+          "selectableOptions": ["swords", "polearms", "blunt", "light-blades", "bows", "crossbows", "exotic"]
+        }
+      ],
+      "6": [
+        {
+          "id": "bravery-6",
+          "name": "Bravery",
+          "description": "+6 morale bonus on saving throws against fear.",
+          "type": "passive",
+          "modifiers": [
+            {
+              "name": "Bravery (Fear Save)",
+              "source": "Fighter Level 6",
+              "type": "morale",
+              "value": 6,
+              "active": true,
+              "applicableWhen": {
+                "situations": ["fear-effect"]
+              }
+            }
+          ]
+        },
+        {
+          "id": "armor-training-2",
+          "name": "Armor Training",
+          "description": "At 6th level, the improvement from armor training increases to +2 AC and +2 Dexterity bonus.",
+          "type": "passive",
+          "applicableType": "armor",
+          "modifiers": [
+            {
+              "name": "Armor Training II (AC)",
+              "source": "Fighter Level 6",
+              "type": "armor-training",
+              "value": 2,
+              "active": true,
+              "applicableWhen": {
+                "situations": ["in-armor"]
+              }
+            }
+          ]
+        },
+        {
+          "id": "bonus-feat-6",
+          "name": "Bonus Combat Feat",
+          "description": "At 6th level, a fighter gains another bonus combat feat.",
+          "type": "passive"
+        }
+      ]
+    }
+  }
+}

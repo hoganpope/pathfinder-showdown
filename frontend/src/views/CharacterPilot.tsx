@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
 
+interface ClassFeature {
+  id: string;
+  name: string;
+  description: string;
+}
+
 interface CharacterPilotProps {
   character: any;
 }
@@ -8,6 +14,11 @@ function CharacterPilot({ character }: CharacterPilotProps) {
   const [hitPoints, setHitPoints] = useState<number>(0);
   const [actionPoints, setActionPoints] = useState<number>(3);
   const [battleLog, setBattleLog] = useState<string[]>([]);
+  const [classData, setClassData] = useState<any>(null);
+  const [classFeatures, setClassFeatures] = useState<ClassFeature[]>([]);
+  const [braveryBonus, setBraveryBonus] = useState<number>(0);
+  const [armorTrainingBonus, setArmorTrainingBonus] = useState<number>(0);
+  const [weaponTraining, setWeaponTraining] = useState<string | null>(null);
 
   useEffect(() => {
     if (character) {
@@ -17,8 +28,57 @@ function CharacterPilot({ character }: CharacterPilotProps) {
       setHitPoints(baseHP * character.level || baseHP);
       setActionPoints(3);
       setBattleLog([]);
+
+      // Load class data and calculate features
+      loadClassFeatures();
     }
   }, [character]);
+
+  const loadClassFeatures = async () => {
+    try {
+      const res = await fetch("/classes.json");
+      const classesData = await res.json();
+      const fighterData = classesData[character.class];
+      
+      if (!fighterData) return;
+      
+      setClassData(fighterData);
+      
+      // Calculate features for current level
+      const features: ClassFeature[] = [];
+      let bravery = 0;
+      let armorTraining = 0;
+      let weaponGroup: string | null = null;
+      
+      for (let lvl = 1; lvl <= character.level; lvl++) {
+        const lvlFeatures = fighterData.classFeatures?.[lvl] || [];
+        features.push(...lvlFeatures);
+        
+        // Calculate bonuses
+        lvlFeatures.forEach((feat: any) => {
+          if (feat.id.startsWith("bravery-")) {
+            bravery = parseInt(feat.id.split("-")[1]) || 0;
+          }
+          if (feat.id === "armor-training-1") {
+            armorTraining = 1;
+          }
+          if (feat.id === "armor-training-2") {
+            armorTraining = 2;
+          }
+          if (feat.id === "weapon-training-1" && character.featureSelections?.["weapon-training-1"]) {
+            weaponGroup = character.featureSelections["weapon-training-1"];
+          }
+        });
+      }
+      
+      setClassFeatures(features);
+      setBraveryBonus(bravery);
+      setArmorTrainingBonus(armorTraining);
+      setWeaponTraining(weaponGroup);
+    } catch (e) {
+      console.error("Failed to load class features:", e);
+    }
+  };
 
   if (!character) {
     return <div className="character-pilot">No character created yet. Go to Character Builder first.</div>;
@@ -89,6 +149,37 @@ function CharacterPilot({ character }: CharacterPilotProps) {
           </div>
         </div>
       </section>
+
+      {/* Class Features */}
+      {classFeatures.length > 0 && (
+        <section className="pilot-section class-features">
+          <h3>Class Features</h3>
+          <div className="features-display">
+            {braveryBonus > 0 && (
+              <div className="feature-bonus">
+                <strong>Bravery:</strong> +{braveryBonus} vs fear effects
+              </div>
+            )}
+            {armorTrainingBonus > 0 && (
+              <div className="feature-bonus">
+                <strong>Armor Training:</strong> +{armorTrainingBonus} AC when wearing armor
+              </div>
+            )}
+            {weaponTraining && (
+              <div className="feature-bonus">
+                <strong>Weapon Training:</strong> {weaponTraining.charAt(0).toUpperCase() + weaponTraining.slice(1).replace("-", " ")}
+              </div>
+            )}
+          </div>
+          <div className="features-list" style={{ marginTop: "12px" }}>
+            {classFeatures.map((feat) => (
+              <div key={feat.id} style={{ fontSize: "0.9rem", marginBottom: "6px", color: "var(--muted)" }}>
+                • {feat.name}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Ability Scores */}
       <section className="pilot-section abilities">

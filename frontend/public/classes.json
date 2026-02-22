@@ -52,7 +52,95 @@
         "reflex": 2,
         "will": 2
       }
-    ]
+    ],
+    "classFeatures": {
+      "1": [
+        {
+          "id": "weapon-armor-proficiency",
+          "name": "Weapon and Armor Proficiency",
+          "description": "Proficient with all simple and martial weapons, and all armor and shields.",
+          "type": "passive"
+        },
+        {
+          "id": "bravery-1",
+          "name": "Bravery",
+          "description": "+1 morale bonus on saves vs fear",
+          "type": "passive"
+        },
+        {
+          "id": "bonus-feat-1",
+          "name": "Bonus Combat Feat",
+          "description": "Gain an additional combat feat"
+        }
+      ],
+      "2": [
+        {
+          "id": "bravery-2",
+          "name": "Bravery",
+          "description": "+2 morale bonus on saves vs fear"
+        },
+        {
+          "id": "bonus-feat-2",
+          "name": "Bonus Combat Feat",
+          "description": "Gain an additional combat feat"
+        }
+      ],
+      "3": [
+        {
+          "id": "armor-training-1",
+          "name": "Armor Training I",
+          "description": "+1 to AC while wearing armor"
+        },
+        {
+          "id": "bravery-3",
+          "name": "Bravery",
+          "description": "+3 morale bonus on saves vs fear"
+        }
+      ],
+      "4": [
+        {
+          "id": "bravery-4",
+          "name": "Bravery",
+          "description": "+4 morale bonus on saves vs fear"
+        },
+        {
+          "id": "bonus-feat-4",
+          "name": "Bonus Combat Feat",
+          "description": "Gain an additional combat feat"
+        }
+      ],
+      "5": [
+        {
+          "id": "weapon-training-1",
+          "name": "Weapon Training I",
+          "description": "Select a weapon group for +1 attack and damage",
+          "requiresSelection": true,
+          "selectableOptions": ["swords", "polearms", "blunt", "light-blades", "bows", "crossbows", "exotic"]
+        },
+        {
+          "id": "bravery-5",
+          "name": "Bravery",
+          "description": "+5 morale bonus on saves vs fear"
+        }
+      ],
+      "6": [
+        {
+          "id": "armor-training-2",
+          "name": "Armor Training II",
+          "description": "+2 to AC while wearing armor"
+        },
+        {
+          "id": "bravery-6",
+          "name": "Bravery",
+          "description": "+6 morale bonus on saves vs fear"
+        },
+        {
+          "id": "bonus-feat-6",
+          "name": "Bonus Combat Feat",
+          "description": "Gain an additional combat feat"
+        }
+      ]
+    }
   },
   "Wizard": {
     "id": "Wizard",
@@ -121,4 +209,5 @@
         "will": 1
       }
     ]
-  }}
+  }
+}

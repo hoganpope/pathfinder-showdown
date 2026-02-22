@@ -5,4 +5,5 @@ export type BonusType =
     | "competence"
     | "luck"
     | "dodge"
-    | "circumstance";
+    | "circumstance"
+    | "armor-training";

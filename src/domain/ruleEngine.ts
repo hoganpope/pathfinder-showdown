@@ -60,6 +60,7 @@ export class RuleEngine {
                 // Stacking
                 case "dodge":
                 case "circumstance":
+                case "armor-training":
                 case "untyped":
                 case "racial":
                 default:

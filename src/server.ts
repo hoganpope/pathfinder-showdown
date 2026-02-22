@@ -27,7 +27,7 @@ const character = new Character({
   wisdom: 8,
   charisma: 10,
   baseAttackBonus: 6
-});
+}, 200); // 200 gp starting gold
 
 /*
 ---------------------------------------------------
@@ -63,7 +63,8 @@ app.post("/modifier", (req, res) => {
     "competence",
     "luck",
     "dodge",
-    "circumstance"
+    "circumstance",
+    "armor-training"
   ];
 
   if (!validBonusTypes.includes(bonusType)) {

@@ -6,6 +6,7 @@ import { FeatSlot } from "./featSlot";
 import { Equipment, EquipmentSlot } from "./equipment";
 import { Attack } from "./attack";
 import { Ability } from "./ability";
+import { ClassFeature } from "./classFeature";
 
 export class Character {
     private baseStats: BaseStats;
@@ -15,8 +16,11 @@ export class Character {
     private equipment: Map<EquipmentSlot, Equipment>;
     private attacks: Attack[];
     private abilities: Ability[];
+    private gold: number;
+    private classFeatures: Map<string, ClassFeature> = new Map(); // Track selected features
+    private featureSelections: Map<string, string> = new Map(); // Track selections like weapon group
 
-    constructor(baseStats: BaseStats) {
+    constructor(baseStats: BaseStats, startingGold: number = 0) {
         this.baseStats = { ...baseStats };
         this.modifiers = [];
         this.levels = [];
@@ -24,6 +28,7 @@ export class Character {
         this.equipment = new Map();
         this.attacks = [];
         this.abilities = [];
+        this.gold = startingGold;
     }
 
     // ============ Level Management ============
@@ -38,10 +43,17 @@ export class Character {
         };
         this.levels.push(newLevel);
         
-        // Add feat slot for base level up
-        const baseFeatsPerLevel = 1; // Pathfinder rule: feat every 3 levels + 1 at 1st
+        // Add feat slot for base level up (every 3 levels + 1st level)
         if (levelNumber === 1 || (levelNumber - 1) % 3 === 0) {
             this.addFeatSlot("baseLevel", levelNumber);
+        }
+
+        // NEW: Apply class features for this level
+        if (characterClass.classFeatures && characterClass.classFeatures[levelNumber]) {
+            const featuresForLevel = characterClass.classFeatures[levelNumber];
+            for (const feature of featuresForLevel) {
+                this.addClassFeature(feature, levelNumber);
+            }
         }
 
         return newLevel;
@@ -85,11 +97,59 @@ export class Character {
         }
     }
 
+    // ============ Class Feature Management (NEW) ============
+    addClassFeature(feature: ClassFeature, grantedAtLevel: number): void {
+        this.classFeatures.set(feature.id, feature);
+        
+        // Add modifiers from feature
+        if (feature.modifiers) {
+            feature.modifiers.forEach(mod => this.addModifier(mod));
+        }
+        
+        // Add abilities from feature
+        if (feature.abilities) {
+            feature.abilities.forEach(ab => this.addAbility(ab));
+        }
+        
+        // Handle bonus combat feat slots
+        if (feature.id.includes("bonus-feat")) {
+            this.addFeatSlot("classLevel", grantedAtLevel, ["combat-feat"]);
+        }
+    }
+
+    selectClassFeatureOption(featureId: string, selectedOption: string): void {
+        const feature = this.classFeatures.get(featureId);
+        if (!feature) {
+            throw new Error(`Feature ${featureId} not found`);
+        }
+        if (!feature.requiresSelection) {
+            throw new Error(`Feature ${featureId} does not require selection`);
+        }
+        if (feature.selectableOptions && !feature.selectableOptions.includes(selectedOption)) {
+            throw new Error(`Invalid selection ${selectedOption} for feature ${featureId}`);
+        }
+        
+        this.featureSelections.set(featureId, selectedOption);
+    }
+
+    getFeatureSelection(featureId: string): string | undefined {
+        return this.featureSelections.get(featureId);
+    }
+
+    getClassFeatures(): ClassFeature[] {
+        return Array.from(this.classFeatures.values());
+    }
+
     // ============ Equipment Management ============
     equipItem(equipment: Equipment): void {
         if (this.equipment.has(equipment.slot)) {
             throw new Error(`Slot ${equipment.slot} already occupied`);
         }
+        if (this.gold < equipment.cost) {
+            throw new Error(`Insufficient gold. Need ${equipment.cost} gp, but only have ${this.gold} gp`);
+        }
+        
+        this.gold -= equipment.cost;
         this.equipment.set(equipment.slot, equipment);
         
         // Add modifiers from equipment
@@ -109,6 +169,9 @@ export class Character {
     unequipItem(slot: EquipmentSlot): void {
         const equipment = this.equipment.get(slot);
         if (equipment) {
+            // Refund the cost of the equipment
+            this.gold += equipment.cost;
+            
             // Remove modifiers from equipment
             equipment.modifiers.forEach(mod => this.removeModifier(mod.id));
             
@@ -163,10 +226,53 @@ export class Character {
         const baseValue = this.baseStats[statName] ?? 0;
 
         const relevantMods = this.modifiers.filter(
-            m => m.target === statName && m.active
+            m => (m.target === statName || !m.target) && m.active && this.modifierAppliesToContext(m)
         );
 
         return RuleEngine.resolveStat(baseValue, relevantMods);
+    }
+
+    /**
+     * Check if a modifier applies given the current character context
+     * (equipped armor, equipped weapons, etc.)
+     */
+    private modifierAppliesToContext(modifier: Modifier): boolean {
+        if (!modifier.applicableWhen) {
+            return true; // No restrictions, always applies
+        }
+
+        const { situations, armorTypes } = modifier.applicableWhen;
+
+        // Check armor type requirement
+        if (armorTypes) {
+            if (armorTypes.includes("none") && this.isWearingArmor()) {
+                return false; // Requires no armor but wearing some
+            }
+            if (!armorTypes.includes("none") && !this.isWearingArmor()) {
+                return false; // Requires armor but not wearing any
+            }
+            
+            // TODO: Check specific armor type (light/medium/heavy)
+        }
+
+        // Check situation requirement
+        if (situations) {
+            // For now, we'll assume all situations are met
+            // In a real implementation, this would check game state
+            // e.g., isUnderFearEffect(), etc.
+        }
+
+        return true;
+    }
+
+    private isWearingArmor(): boolean {
+        // Check if any armor is equipped (excluding shields)
+        for (const equipment of this.equipment.values()) {
+            if (equipment.type === "armor") {
+                return true;
+            }
+        }
+        return false;
     }
 
     resolveStrengthModifier(): number {
@@ -218,5 +324,27 @@ export class Character {
 
     setBaseStat(statName: string, value: number): void {
         this.baseStats[statName] = value;
+    }
+
+    // ============ Gold Management ============
+    getGold(): number {
+        return this.gold;
+    }
+
+    addGold(amount: number): void {
+        if (amount < 0) {
+            throw new Error("Cannot add negative gold amount");
+        }
+        this.gold += amount;
+    }
+
+    subtractGold(amount: number): void {
+        if (amount < 0) {
+            throw new Error("Cannot subtract negative gold amount");
+        }
+        if (this.gold < amount) {
+            throw new Error(`Insufficient gold. Need ${amount} gp, but only have ${this.gold} gp`);
+        }
+        this.gold -= amount;
     }
 }

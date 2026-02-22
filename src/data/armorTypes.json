@@ -1,0 +1,47 @@
+{
+  "armorTypes": [
+    {
+      "id": "none",
+      "name": "No Armor",
+      "description": "Unarmored or robes only",
+      "armorClass": 0
+    },
+    {
+      "id": "light",
+      "name": "Light Armor",
+      "description": "Leather, studded leather, and other light protective gear",
+      "examples": ["leather", "studded-leather", "padded", "silk"]
+    },
+    {
+      "id": "medium",
+      "name": "Medium Armor",
+      "description": "Chain shirts, scale mail, and similar protection",
+      "examples": ["chain-shirt", "scale-mail", "hide", "breastplate"]
+    },
+    {
+      "id": "heavy",
+      "name": "Heavy Armor",
+      "description": "Full plate, banded mail, and full body protection",
+      "examples": ["full-plate", "banded-mail", "splint-mail", "plate-mail"]
+    }
+  ],
+  "shieldTypes": [
+    {
+      "id": "none",
+      "name": "No Shield",
+      "description": "Not using a shield"
+    },
+    {
+      "id": "light",
+      "name": "Light Shield",
+      "description": "Bucklers and other small shields",
+      "examples": ["buckler"]
+    },
+    {
+      "id": "heavy",
+      "name": "Heavy Shield",
+      "description": "Tower shields and standard shields",
+      "examples": ["shield", "tower-shield"]
+    }
+  ]
+}

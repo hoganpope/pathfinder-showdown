@@ -2,6 +2,7 @@ import { Modifier } from "./modifier";
 import { Attack } from "./attack";
 import { Ability } from "./ability";
 import { FeatSlot } from "./featSlot";
+import { ClassFeature } from "./classFeature";
 
 export interface ClassDefinition {
     id: string;
@@ -17,6 +18,10 @@ export interface ClassDefinition {
     attacksPerLevel?: Attack[];
     abilitiesPerLevel?: Ability[];
     featSlotsPerLevel?: number;
+    // NEW: Class features defined per level (e.g., Bravery, Armor Training)
+    classFeatures?: {
+        [level: number]: ClassFeature[];
+    };
 }
 
 export interface CharacterLevel {

@@ -5,6 +5,15 @@ interface ClassData {
   name: string;
   hitDie: number;
   progressionTable: any[];
+  classFeatures?: Record<number, any[]>;
+}
+
+interface ClassFeature {
+  id: string;
+  name: string;
+  description: string;
+  requiresSelection?: boolean;
+  selectableOptions?: string[];
 }
 
 interface Feat {
@@ -48,6 +57,7 @@ function CharacterBuilder({ onCharacterCreate, characterId, onBackToSelect }: Ch
   const [loading, setLoading] = useState(!!characterId);
   const [error, setError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [featureSelections, setFeatureSelections] = useState<Record<string, string>>({});
 
   // Load character if editing
   useEffect(() => {
@@ -64,6 +74,7 @@ function CharacterBuilder({ onCharacterCreate, characterId, onBackToSelect }: Ch
           setBaseStats(character.baseStats);
           setSelectedFeats(character.selectedFeats);
           setEquippedItems(character.equippedItems);
+          setFeatureSelections(character.featureSelections || {});
         } catch (e) {
           console.error("Failed to load character:", e);
           setError("Failed to load character");
@@ -137,6 +148,13 @@ function CharacterBuilder({ onCharacterCreate, characterId, onBackToSelect }: Ch
     );
   };
 
+  const handleFeatureSelection = (featureId: string, selectedValue: string) => {
+    setFeatureSelections((prev) => ({
+      ...prev,
+      [featureId]: selectedValue
+    }));
+  };
+
   const handleSaveCharacter = async () => {
     const characterData = {
       name: characterName,
@@ -145,6 +163,7 @@ function CharacterBuilder({ onCharacterCreate, characterId, onBackToSelect }: Ch
       baseStats,
       selectedFeats,
       equippedItems,
+      featureSelections,
     };
 
     try {
@@ -182,6 +201,12 @@ function CharacterBuilder({ onCharacterCreate, characterId, onBackToSelect }: Ch
   };
 
   const currentClassData = selectedClass ? classes[selectedClass] : null;
+
+  const getFeaturesForLevel = (classData: ClassData | null, lvl: number): ClassFeature[] => {
+    if (!classData?.classFeatures || lvl === 0) return [];
+    const features = classData.classFeatures[lvl] || [];
+    return features;
+  };
 
   if (loading) {
     return <div className="character-builder"><p>Loading character...</p></div>;
@@ -252,6 +277,45 @@ function CharacterBuilder({ onCharacterCreate, characterId, onBackToSelect }: Ch
                 </ul>
               </div>
             )}
+          </div>
+        )}
+
+        {/* Display Class Features */}
+        {level > 0 && getFeaturesForLevel(currentClassData, level).length > 0 && (
+          <div className="class-features-section">
+            <h4 style={{ marginTop: "16px", color: "#8bd5ca" }}>New Features at Level {level}</h4>
+            <div className="features-list">
+              {getFeaturesForLevel(currentClassData, level).map((feature) => (
+                <div key={feature.id} className="feature-item">
+                  <div className="feature-header">
+                    <strong>{feature.name}</strong>
+                    <span className="feature-desc">{feature.description}</span>
+                  </div>
+                  
+                  {/* Feature Selection UI */}
+                  {feature.requiresSelection && feature.selectableOptions && (
+                    <div className="feature-selection">
+                      <label htmlFor={`select-${feature.id}`} style={{ marginRight: "8px" }}>
+                        Choose option:
+                      </label>
+                      <select
+                        id={`select-${feature.id}`}
+                        value={featureSelections[feature.id] || ""}
+                        onChange={(e) => handleFeatureSelection(feature.id, e.target.value)}
+                        style={{ padding: "6px 12px", marginTop: "8px" }}
+                      >
+                        <option value="">-- Select --</option>
+                        {feature.selectableOptions.map((opt) => (
+                          <option key={opt} value={opt}>
+                            {opt.charAt(0).toUpperCase() + opt.slice(1).replace("-", " ")}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </section>

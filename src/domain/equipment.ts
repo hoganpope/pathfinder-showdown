@@ -21,9 +21,12 @@ export interface Equipment {
     id: string;
     name: string;
     slot: EquipmentSlot;
+    cost: number; // in gold pieces
     modifiers: Modifier[];
     attacks?: Attack[];
     ability?: Ability;
+    type?: "weapon" | "armor" | "shield"; // NEW: Equipment category
+    group?: string; // NEW: Grouping (e.g., "swords", "light-armor", "shields")
 }
 
 export interface Weapon extends Equipment {

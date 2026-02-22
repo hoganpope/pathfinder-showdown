@@ -1,0 +1,46 @@
+{
+  "weaponGroups": [
+    {
+      "id": "swords",
+      "name": "Swords",
+      "description": "One-handed or two-handed swords, including longswords, scimitars, and shortswords",
+      "weapons": ["longsword", "shortsword", "scimitar", "bastard-sword"]
+    },
+    {
+      "id": "polearms",
+      "name": "Polearms",
+      "description": "Weapons on poles or staves, including spears, pikes, and halberds",
+      "weapons": ["spear", "Pike", "halberd", "poleaxe"]
+    },
+    {
+      "id": "blunt",
+      "name": "Blunt Weapons",
+      "description": "Hammers, maces, and other crushing weapons",
+      "weapons": ["hammer", "mace", "morningstar", "greataxe"]
+    },
+    {
+      "id": "light-blades",
+      "name": "Light Blades",
+      "description": "Daggers, hand axes, and other light swords",
+      "weapons": ["dagger", "short-spear", "hand-axe"]
+    },
+    {
+      "id": "bows",
+      "name": "Bows",
+      "description": "Longbows, shortbows, and composite bows",
+      "weapons": ["longbow", "shortbow", "composite-bow"]
+    },
+    {
+      "id": "crossbows",
+      "name": "Crossbows",
+      "description": "Hand crossbows and heavy crossbows",
+      "weapons": ["hand-crossbow", "heavy-crossbow", "light-crossbow"]
+    },
+    {
+      "id": "exotic",
+      "name": "Exotic Weapons",
+      "description": "Unusual or particularly difficult weapons",
+      "weapons": ["whip", "chain", "kusarigama", "rapier"]
+    }
+  ]
+}
